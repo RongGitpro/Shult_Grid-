@@ -1,0 +1,98 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+#stats-container {
+    margin-bottom: 20px;
+}
+
+#stats-table {
+    border-collapse: none;
+    width: auto;
+    max-width: none;
+    table-layout: auto;
+    margin: 0 auto; /* Center the table */
+}
+
+#stats-table th, #stats-table td {
+    border: none;
+    padding: 8px;
+    text-align: left;
+    font-size: medium;
+}
+
+#stats-table th {
+    background-color:transparent;
+}
+
+#stats-table td {
+    font-size: transparent;
+}
+
+#grid-container {
+    margin: 20px 0;
+    display: grid;
+    gap: 5px;
+}
+
+.grid-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.grid-cell:hover {
+    background-color: #e0e0e0;
+}
+
+.grid-cell.active {
+    background-color: #90ee90;
+}
+
+.grid-cell.error {
+    background-color: #ff6347; /* Tomato red for error */
+}
+
+#timer {
+    font-size: 18px;
+}
+
+#info {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#info span {
+    font-weight: bold;
+}
+
+.grid-container.disabled .grid-cell {
+    pointer-events: none; /* Disable clicks on grid cells */
+    opacity: 0.5; /* Make the cells appear disabled */
+}
+
+.button-flash {
+    animation: flash-red 0.5s; /* Flash effect duration */
+}
+
+@keyframes flash-red {
+    0% { background-color: #f0f0f0; }
+    50% { background-color: #ff4d4d; } /* Red flash */
+    100% { background-color: #f0f0f0; }
+}
