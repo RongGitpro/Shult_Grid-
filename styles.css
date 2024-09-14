@@ -18,26 +18,24 @@ body {
 }
 
 #stats-table {
-    border-collapse: none;
+    border-collapse: collapse;
     width: auto;
-    max-width: none;
-    table-layout: auto;
     margin: 0 auto; /* Center the table */
 }
 
 #stats-table th, #stats-table td {
-    border: none;
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
     font-size: medium;
 }
 
 #stats-table th {
-    background-color:transparent;
+    background-color: #f4f4f4;
 }
 
 #stats-table td {
-    font-size: transparent;
+    font-size: 16px;
 }
 
 #grid-container {
@@ -67,19 +65,12 @@ body {
 
 .grid-cell.error {
     background-color: #ff6347; /* Tomato red for error */
+    animation: flash-red 0.5s; /* Flash effect duration */
 }
 
-#timer {
-    font-size: 18px;
-}
-
-#info {
-    font-size: 18px;
-    margin-top: 10px;
-}
-
-#info span {
-    font-weight: bold;
+@keyframes flash-red {
+    0% { background-color: #ff6347; }
+    100% { background-color: #fff; }
 }
 
 .grid-container.disabled .grid-cell {
@@ -89,10 +80,4 @@ body {
 
 .button-flash {
     animation: flash-red 0.5s; /* Flash effect duration */
-}
-
-@keyframes flash-red {
-    0% { background-color: #f0f0f0; }
-    50% { background-color: #ff4d4d; } /* Red flash */
-    100% { background-color: #f0f0f0; }
 }
