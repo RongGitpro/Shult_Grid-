@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('grid-container');
     const startButton = document.getElementById('start-button');
@@ -90,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatsDisplay();
         setTimeout(() => {
             gridSize++;
-            if (gridSize > 5) {
+            // 修该在这里
+            if (gridSize > 2) {
                 showFinalStats();
             } else {
                 startGame();
@@ -103,61 +103,64 @@ document.addEventListener('DOMContentLoaded', () => {
         elapsedTimeDisplay.textContent = stats[gridSize].time ? `${stats[gridSize].time}秒` : '0秒';
     }
 
-    // function showFinalStats() {
-    //     const statsText = `fit@${stats[3].errors || 0},${stats[3].time || 0}sec@${stats[4].errors || 0},${stats[4].time || 0}thir@${stats[5].errors || 0},${stats[5].time || 0}`;
-        
-    //     const statsBlock = document.createElement('textarea');
-    //     statsBlock.value = statsText.trim();
-    //     statsBlock.style.position = 'absolute';
-    //     statsBlock.style.left = '-9999px';
-    //     document.body.appendChild(statsBlock);
-    //     statsBlock.select();
-    //     document.execCommand('copy');
-    //     document.body.removeChild(statsBlock);
+    // codeing
+    function encodeBase64(text) {
+        return btoa(unescape(encodeURIComponent(text)));
+    }
 
-    //     alert('游戏完成！已将每次游戏的错误次数和完成时间复制到剪贴板。');
-    //     gameInProgress = false;
-    // }
-
-    // startButton.addEventListener('click', () => {
-    //     if (!gameInProgress) startGame();
-    // });
-
-    // createGrid(gridSize);
+    function decodeBase64(encodedText){
+        return decodeURIComponent(escape(atob(encodedText)));
+    }
 
     function showFinalStats() {
-        const statsText = `fit@${stats[3].errors || 0},${stats[3].time || 0}sec@${stats[4].errors || 0},${stats[4].time || 0}thir@${stats[5].errors || 0},${stats[5].time || 0}`;
-
+        let statsText = `${stats[3].errors || 0},${stats[3].time || 0}@${stats[4].errors || 0},${stats[4].time || 0}@${stats[5].errors || 0},${stats[5].time || 0}`;
+        
         if (navigator.clipboard) {
             // 使用 Clipboard API 进行复制
-            navigator.clipboard.writeText(statsText.trim())
+            navigator.clipboard.writeText(encodedStatsText.trim())
                 .then(() => {
                     alert('游戏完成！已将每次游戏的错误次数和完成时间复制到剪贴板。');
                 })
                 .catch(err => {
                     console.error('复制到剪贴板失败:', err);
-                    alert('复制到剪贴板失败，请手动复制内容。');
+                    alert('复制到剪贴板失败，请点击确定后手动复制内容。');
                     
                     const statsBlock = document.createElement('textarea');
-                    statsBlock.value = statsText.trim();
+                    statsBlock.value = encodedStatsText.trim();
                     statsBlock.style.position = 'fixed';
-                    statsBlock.style.left = '0';
-                    statsBlock.style.top = '0';
-                    statsBlock.style.width = '100%';
-                    statsBlock.style.height = '100px';
-                    statsBlock.style.backgroundColor = '#fff';
-                    statsBlock.style.border = '1px solid #ddd';
-                    statsBlock.style.padding = '10px';
+                    statsBlock.style.left = '50%';
+                    statsBlock.style.top = '50%';
+                    statsBlock.style.transform = 'translate(-50%, -50%)';
+                    statsBlock.style.width = '90%';
+                    statsBlock.style.maxWidth = '600px';
+                    statsBlock.style.height = '150px';
+                    statsBlock.style.backgroundColor = '#f9f9f9';
+                    statsBlock.style.border = '2px solid #007bff';
+                    statsBlock.style.borderRadius = '8px';
+                    statsBlock.style.padding = '15px';
+                    statsBlock.style.fontSize = '16px';
+                    statsBlock.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                     statsBlock.style.zIndex = '1000';
                     statsBlock.style.overflow = 'auto';
                     statsBlock.style.resize = 'none'; // 防止用户调整大小
                     document.body.appendChild(statsBlock);
-                    statsBlock.select();
+                
+                    // 添加提示文本
+                    const hint = document.createElement('div');
+                    hint.textContent = '请将下方的文本复制到剪贴板：';
+                    hint.style.position = 'absolute';
+                    hint.style.top = '-30px';
+                    hint.style.left = '15px';
+                    hint.style.fontSize = '18px';
+                    hint.style.fontWeight = 'bold';
+                    hint.style.color = '#333';
+                    statsBlock.parentElement.insertBefore(hint, statsBlock);
+                    
                 });
         } else {
             // Fallback for browsers that do not support Clipboard API
             const statsBlock = document.createElement('textarea');
-            statsBlock.value = statsText.trim();
+            statsBlock.value = encodedStatsText.trim();
             statsBlock.style.position = 'absolute';
             statsBlock.style.left = '-9999px';
             document.body.appendChild(statsBlock);
@@ -168,23 +171,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('复制到剪贴板:', msg);
             } catch (err) {
                 console.error('复制到剪贴板失败:', err);
-                alert('复制到剪贴板失败，请手动复制内容。');
+                alert('复制到剪贴板失败，请点击确定后手动复制内容。');
                 
+
                 const statsBlock = document.createElement('textarea');
-                statsBlock.value = statsText.trim();
+                statsBlock.value = encodedStatsText.trim();
                 statsBlock.style.position = 'fixed';
-                statsBlock.style.left = '0';
-                statsBlock.style.top = '0';
-                statsBlock.style.width = '100%';
-                statsBlock.style.height = '100px';
-                statsBlock.style.backgroundColor = '#fff';
-                statsBlock.style.border = '1px solid #ddd';
-                statsBlock.style.padding = '10px';
+                statsBlock.style.left = '50%';
+                statsBlock.style.top = '50%';
+                statsBlock.style.transform = 'translate(-50%, -50%)';
+                statsBlock.style.width = '90%';
+                statsBlock.style.maxWidth = '600px';
+                statsBlock.style.height = '150px';
+                statsBlock.style.backgroundColor = '#f9f9f9';
+                statsBlock.style.border = '2px solid #007bff';
+                statsBlock.style.borderRadius = '8px';
+                statsBlock.style.padding = '15px';
+                statsBlock.style.fontSize = '16px';
+                statsBlock.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                 statsBlock.style.zIndex = '1000';
                 statsBlock.style.overflow = 'auto';
                 statsBlock.style.resize = 'none'; // 防止用户调整大小
                 document.body.appendChild(statsBlock);
-                statsBlock.select();
+            
+                // 添加提示文本
+                const hint = document.createElement('div');
+                hint.textContent = '请将下方的文本复制到剪贴板：';
+                hint.style.position = 'absolute';
+                hint.style.top = '-30px';
+                hint.style.left = '15px';
+                hint.style.fontSize = '18px';
+                hint.style.fontWeight = 'bold';
+                hint.style.color = '#333';
+                statsBlock.parentElement.insertBefore(hint, statsBlock);
+
+    
             }
             document.body.removeChild(statsBlock);
         }
