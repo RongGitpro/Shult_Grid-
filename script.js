@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(err => {
                     console.error('代码复制到剪贴板失败:', err);
+                    alert('复制到剪贴板失败，请点击确定后手动复制内容。(っ °Д °;)っ');
                     showManualCopyInstructions(encodedStatsText);
                 });
         } else {
