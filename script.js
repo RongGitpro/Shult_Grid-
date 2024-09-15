@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatsDisplay();
         setTimeout(() => {
             gridSize++;
+            // 这里，这里
             if (gridSize > 5) {
                 showFinalStats();
             } else {
@@ -103,26 +104,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // codeing
-    function encodeBase64(text) {
-        return btoa(unescape(encodeURIComponent(text)));
+    function encodeBase64(text){
+
+        const encoder = new TextEncoder();
+        const bytes =encoder.encode(text);
+
+        return btoa(String.fromCharCode(...new Uint8Array(bytes)));
     }
 
-    function decodeBase64(encodedText){
-        return decodeURIComponent(escape(atob(encodedText)));
+    function decodeBase64(encodedText) {
+        
+        const decodedBytes=atob(encodedText);
+        const byteArray= new Uint8Array([...decodedBytes].map(c => c.charCodeAt(0)));
+
+        const decoder =new TextDecoder();
+        
+        return decoder.decode(byteArray);
     }
 
     function showFinalStats() {
         let statsText = `${stats[3].errors || 0},${stats[3].time || 0}@${stats[4].errors || 0},${stats[4].time || 0}@${stats[5].errors || 0},${stats[5].time || 0}`;
-        
+        const encodedStatsText=encodeBase64(statsText);
+
         if (navigator.clipboard) {
             // 使用 Clipboard API 进行复制
             navigator.clipboard.writeText(encodedStatsText.trim())
                 .then(() => {
-                    alert('游戏完成！已将每次游戏的错误次数和完成时间复制到剪贴板。');
+                    alert('游戏完成！已将代码写入剪贴板。[]~(￣▽￣)~*');
                 })
                 .catch(err => {
-                    console.error('复制到剪贴板失败:', err);
-                    alert('复制到剪贴板失败，请点击确定后手动复制内容。');
+                    console.error('代码复制到剪贴板失败:', err);
+                    alert('复制到剪贴板失败，请点击确定后手动复制内容。(っ °Д °;)っ');
                     
                     const statsBlock = document.createElement('textarea');
                     statsBlock.value = encodedStatsText.trim();
@@ -170,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('复制到剪贴板:', msg);
             } catch (err) {
                 console.error('复制到剪贴板失败:', err);
-                alert('复制到剪贴板失败，请点击确定后手动复制内容。');
+                alert('复制到剪贴板失败，请点击确定后手动复制内容。(っ °Д °;)っ');
                 
 
                 const statsBlock = document.createElement('textarea');
