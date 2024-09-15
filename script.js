@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('grid-container');
     const startButton = document.getElementById('start-button');
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatsDisplay();
         setTimeout(() => {
             gridSize++;
-            if (gridSize > 2) {
+            if (gridSize > 5) {
                 showFinalStats();
             } else {
                 startGame();
@@ -133,7 +134,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     showManualCopyInstructions(encodedStatsText);
                 });
         } else {
+            // Fallback for browsers that do not support Clipboard API
+            const statsBlock = document.createElement('textarea');
+            statsBlock.value = encodedStatsText.trim();
+            statsBlock.style.position = 'absolute';
+            statsBlock.style.left = '-9999px';
+            document.body.appendChild(statsBlock);
+            statsBlock.select();
+            try {
+            const successful = document.execCommand('copy');
+            const msg = successful ? '成功' : '失败';
+            console.log('复制到剪贴板:', msg);
+            } catch (err) {
+            console.error('复制到剪贴板失败:', err);
+            alert('复制到剪贴板失败，请点击确定后手动复制内容。(っ °Д °;)っ');
+                            
             showManualCopyInstructions(encodedStatsText);
+            }
+            document.body.removeChild(statsBlock);
         }
         gameInProgress = false; // 结束游戏
     }
@@ -157,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statsBlock.style.zIndex = '1000';
         statsBlock.style.overflow = 'auto';
         statsBlock.style.resize = 'none'; // 防止用户调整大小
+        document.body.appendChild(statsBlock);
 
         const hint = document.createElement('div');
         hint.textContent = '请将下方的文本复制到剪贴板：';
@@ -166,12 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hint.style.fontSize = '18px';
         hint.style.fontWeight = 'bold';
         hint.style.color = '#333';
-
-        document.body.appendChild(statsBlock);
         statsBlock.parentElement.insertBefore(hint, statsBlock);
-
-        statsBlock.focus(); // 聚焦到 textarea
-        statsBlock.select(); // 选择内容
     }
 
     startButton.addEventListener('click', () => {
