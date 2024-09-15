@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showFinalStats() {
-        let statsText = `${stats[3].errors || 0},${stats[3].time || 0}@${stats[4].errors || 0},${stats[4].time || 0}@${stats[5].errors || 0},${stats[5].time || 0}`;
+        let statsText = `Start${stats[3].errors || 0},${stats[3].time || 0}@${stats[4].errors || 0},${stats[4].time || 0}@${stats[5].errors || 0},${stats[5].time || 0}End`;
         const encodedStatsText=encodeBase64(statsText);
 
         if (navigator.clipboard) {
