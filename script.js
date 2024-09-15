@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatsDisplay();
         setTimeout(() => {
             gridSize++;
-            // 修该在这里
             if (gridSize > 5) {
                 showFinalStats();
             } else {
