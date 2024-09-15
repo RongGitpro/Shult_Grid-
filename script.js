@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             gridSize++;
             // 修该在这里
-            if (gridSize > 2) {
+            if (gridSize > 5) {
                 showFinalStats();
             } else {
                 startGame();
