@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('grid-container');
     const startButton = document.getElementById('start-button');
@@ -126,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showFinalStats() {
         const statsText = `fit@${stats[3].errors || 0},${stats[3].time || 0}sec@${stats[4].errors || 0},${stats[4].time || 0}thir@${stats[5].errors || 0},${stats[5].time || 0}`;
-        
+
         if (navigator.clipboard) {
             // 使用 Clipboard API 进行复制
             navigator.clipboard.writeText(statsText.trim())
@@ -136,6 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(err => {
                     console.error('复制到剪贴板失败:', err);
                     alert('复制到剪贴板失败，请手动复制内容。');
+                    
+                    const statsBlock = document.createElement('textarea');
+                    statsBlock.value = statsText.trim();
+                    statsBlock.style.position = 'fixed';
+                    statsBlock.style.left = '0';
+                    statsBlock.style.top = '0';
+                    statsBlock.style.width = '100%';
+                    statsBlock.style.height = '100px';
+                    statsBlock.style.backgroundColor = '#fff';
+                    statsBlock.style.border = '1px solid #ddd';
+                    statsBlock.style.padding = '10px';
+                    statsBlock.style.zIndex = '1000';
+                    statsBlock.style.overflow = 'auto';
+                    statsBlock.style.resize = 'none'; // 防止用户调整大小
+                    document.body.appendChild(statsBlock);
+                    statsBlock.select();
                 });
         } else {
             // Fallback for browsers that do not support Clipboard API
@@ -152,6 +169,22 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error('复制到剪贴板失败:', err);
                 alert('复制到剪贴板失败，请手动复制内容。');
+                
+                const statsBlock = document.createElement('textarea');
+                statsBlock.value = statsText.trim();
+                statsBlock.style.position = 'fixed';
+                statsBlock.style.left = '0';
+                statsBlock.style.top = '0';
+                statsBlock.style.width = '100%';
+                statsBlock.style.height = '100px';
+                statsBlock.style.backgroundColor = '#fff';
+                statsBlock.style.border = '1px solid #ddd';
+                statsBlock.style.padding = '10px';
+                statsBlock.style.zIndex = '1000';
+                statsBlock.style.overflow = 'auto';
+                statsBlock.style.resize = 'none'; // 防止用户调整大小
+                document.body.appendChild(statsBlock);
+                statsBlock.select();
             }
             document.body.removeChild(statsBlock);
         }
